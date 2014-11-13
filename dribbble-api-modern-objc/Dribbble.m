@@ -75,6 +75,18 @@ NSString * const DribbbleScopeUpload = @"upload";
 	completion(dresponse);
 }
 
+- (NSMutableURLRequest *) __requestWithAPIEndpoint:(NSString *) apiEndpoint method:(NSString *) method params:(NSDictionary *) params {
+	NSMutableString * u = [NSMutableString stringWithString:apiEndpoint];
+	NSDictionary * pams = [self __getParamsWithAccessToken:params];
+	[self __appendDictionaryOfParameters:pams toString:u];
+	NSURL * url = [NSURL URLWithString:u];
+	NSMutableURLRequest * request = [[NSMutableURLRequest alloc] initWithURL:url];
+	if(method) {
+		request.HTTPMethod = method;
+	}
+	return request;
+}
+
 #pragma mark auth
 
 - (void) authorizeWithScopes:(NSArray *) scopes completion:(DribbbleCompletionBlock) completion; {
@@ -131,10 +143,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) listShotsWithParameters:(NSDictionary *) params completion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/shots"];
-	NSDictionary * pams = [self __getParamsWithAccessToken:params];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [[NSMutableURLRequest alloc] initWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:params];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -144,11 +153,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) likeShot:(NSString *) shotId withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/shots/%@/like",shotId];
-	NSDictionary * pams = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-	request.HTTPMethod = @"POST";
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"POST" params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -158,11 +163,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) unlikeShot:(NSString *) shotId withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/shots/%@/like",shotId];
-	NSDictionary * pams = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-	request.HTTPMethod = @"DELETE";
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"DELETE" params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingEmptyResponse:response data:data error:error completion:completion];
@@ -174,10 +175,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) getUser:(NSString *) user completion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@",user];
-	NSDictionary * params = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:params toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -187,10 +185,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) getAuthedUser:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user"];
-	NSDictionary * params = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:params toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -200,10 +195,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) listShotsLikedParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user/likes"];
-	NSDictionary * pams = [self __getParamsWithAccessToken:params];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:params];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -213,10 +205,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) listShotsOfPlayersFollowedParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user/following/shots"];
-	NSDictionary * pams = [self __getParamsWithAccessToken:params];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:params];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -226,10 +215,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) listShotsOfUser:(NSString *) user parameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@/shots",user];
-	NSDictionary * pams = [self __getParamsWithAccessToken:params];
-	[self __appendDictionaryOfParameters:pams toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:nil params:params];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -239,11 +225,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) followUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@/follow",user];
-	NSDictionary * params = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:params toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-	request.HTTPMethod = @"PUT";
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"PUT" params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingEmptyResponse:response data:data error:error completion:completion];
@@ -253,11 +235,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 - (void) unfollowUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@/follow",user];
-	NSDictionary * params = [self __getParamsWithAccessToken:nil];
-	[self __appendDictionaryOfParameters:params toString:u];
-	NSURL * url = [NSURL URLWithString:u];
-	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-	request.HTTPMethod = @"DELETE";
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"DELETE" params:nil];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingEmptyResponse:response data:data error:error completion:completion];
