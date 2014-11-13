@@ -40,6 +40,7 @@ typedef void (^DribbbleCollectionCompletionBlock)(Dribbble * dribbble, DribbbleR
 - (void) unlikeShot:(NSString *) shotId withCompletion:(DribbbleCompletionBlock) completion;
 
 //user
+- (void) getUser:(NSString *) user completion:(DribbbleCompletionBlock) completion;
 - (void) getAuthedUser:(DribbbleCompletionBlock) completion;
 - (void) listShotsLikedParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;
 - (void) listShotsOfPlayersFollowedParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;

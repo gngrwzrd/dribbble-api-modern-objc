@@ -32,7 +32,7 @@
 }
 
 - (void) dealloc {
-	NSLog(@"DEALLOC: URLParser");
+	//NSLog(@"DEALLOC: URLParser");
 }
 
 @end

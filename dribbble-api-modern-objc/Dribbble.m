@@ -172,6 +172,19 @@ NSString * const DribbbleScopeUpload = @"upload";
 
 #pragma mark users
 
+- (void) getUser:(NSString *) user completion:(DribbbleCompletionBlock) completion; {
+	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@",user];
+	NSDictionary * params = [self __getParamsWithAccessToken:nil];
+	[self __appendDictionaryOfParameters:params toString:u];
+	NSURL * url = [NSURL URLWithString:u];
+	NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+	__weak Dribbble * weakSelf = self;
+	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
+	}];
+	[task resume];
+}
+
 - (void) getAuthedUser:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user"];
 	NSDictionary * params = [self __getParamsWithAccessToken:nil];
@@ -282,7 +295,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 }
 
 - (void) dealloc {
-	NSLog(@"DEALLOC: DribbbleResponse");
+	//NSLog(@"DEALLOC: DribbbleResponse");
 }
 
 @end
@@ -335,7 +348,7 @@ NSString * const DribbbleScopeUpload = @"upload";
 }
 
 - (void) dealloc {
-	NSLog(@"DEALLOC: DribbbleShotsCollection");
+	//NSLog(@"DEALLOC: DribbbleShotsCollection");
 	if(self.dribbble) {
 		[self.dribbble.defaultSession finishTasksAndInvalidate];
 	}
