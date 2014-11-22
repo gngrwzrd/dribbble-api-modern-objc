@@ -7,6 +7,7 @@ NSString * const DribbbleScopePublic = @"public";
 NSString * const DribbbleScopeWrite = @"write";
 NSString * const DribbbleScopeComment = @"comment";
 NSString * const DribbbleScopeUpload = @"upload";
+NSInteger const DribbbleErrorCodeBadCredentials = 10;
 
 @interface Dribbble ()
 @property (copy) DribbbleCompletionBlock authorizeCompletion;
@@ -52,8 +53,13 @@ NSString * const DribbbleScopeUpload = @"upload";
 		dresponse.data = json;
 	} else if([json isKindOfClass:[NSDictionary class]]) {
 		__weak NSDictionary * jsondict = (NSDictionary *)json;
-		if([jsondict objectForKey:@"message"]) {
-			NSError * error = [NSError errorWithDomain:DribbbleErrorDomain code:0 userInfo:jsondict];
+		NSString * message = [jsondict objectForKey:@"message"];
+		if(message) {
+			NSInteger code = 0;
+			if([message isEqualToString:@"Bad credentials."]) {
+				code = DribbbleErrorCodeBadCredentials;
+			}
+			NSError * error = [NSError errorWithDomain:DribbbleErrorDomain code:code userInfo:jsondict];
 			dresponse.error = error;
 		} else {
 			dresponse.data = json;
@@ -67,8 +73,13 @@ NSString * const DribbbleScopeUpload = @"upload";
 	if(data.length > 0) {
 		NSObject * json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		__weak NSDictionary * jsondict = (NSDictionary *)json;
-		if([jsondict objectForKey:@"message"]) {
-			NSError * error = [NSError errorWithDomain:DribbbleErrorDomain code:0 userInfo:jsondict];
+		NSString * message = [jsondict objectForKey:@"message"];
+		if(message) {
+			NSInteger code = 0;
+			if([message isEqualToString:@"Bad credentials."]) {
+				code = DribbbleErrorCodeBadCredentials;
+			}
+			NSError * error = [NSError errorWithDomain:DribbbleErrorDomain code:code userInfo:jsondict];
 			dresponse.error = error;
 		}
 	}

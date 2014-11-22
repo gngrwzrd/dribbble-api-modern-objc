@@ -9,6 +9,9 @@
 //error domain
 NSString * const DribbbleErrorDomain;
 
+//error coes
+NSInteger const DribbbleErrorCodeBadCredentials;
+
 //scopes
 NSString * const DribbbleScopePublic;
 NSString * const DribbbleScopeWrite;
