@@ -49,7 +49,9 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 - (void) __handleExpectingJSONResponse:(NSURLResponse *) response data:(NSData *) data error:(NSError *) error completion:(DribbbleCompletionBlock) completion {
 	NSObject * json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 	DribbbleResponse * dresponse = [[DribbbleResponse alloc] init];
-	if([json isKindOfClass:[NSArray class]]) {
+	if(error) {
+		dresponse.error = error;
+	} else if([json isKindOfClass:[NSArray class]]) {
 		dresponse.data = json;
 	} else if([json isKindOfClass:[NSDictionary class]]) {
 		__weak NSDictionary * jsondict = (NSDictionary *)json;
@@ -70,7 +72,9 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 
 - (void) __handleExpectingEmptyResponse:(NSURLResponse *) response data:(NSData *) data error:(NSError *) error completion:(DribbbleCompletionBlock) completion; {
 	DribbbleResponse * dresponse = [[DribbbleResponse alloc] init];
-	if(data.length > 0) {
+	if(error) {
+		dresponse.error = error;
+	} else if(data.length > 0) {
 		NSObject * json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		__weak NSDictionary * jsondict = (NSDictionary *)json;
 		NSString * message = [jsondict objectForKey:@"message"];
