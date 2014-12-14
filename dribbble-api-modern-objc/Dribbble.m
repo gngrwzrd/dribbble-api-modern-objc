@@ -258,6 +258,16 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	[task resume];
 }
 
+- (void) getUsersFollowingWithCompletion:(DribbbleCompletionBlock) completion; {
+	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user/following"];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"GET" params:nil];
+	__weak Dribbble * weakSelf = self;
+	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
+	}];
+	[task resume];
+}
+
 - (void) dealloc {
 	NSLog(@"DEALLOC: Dribbble");
 	[self.defaultSession finishTasksAndInvalidate];

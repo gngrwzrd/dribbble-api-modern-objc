@@ -50,6 +50,7 @@ typedef void (^DribbbleCollectionCompletionBlock)(Dribbble * dribbble, DribbbleR
 - (void) listShotsOfUser:(NSString *) user parameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;
 - (void) followUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion;
 - (void) unfollowUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion;
+- (void) getUsersFollowingWithCompletion:(DribbbleCompletionBlock) completion;
 
 @end
 
