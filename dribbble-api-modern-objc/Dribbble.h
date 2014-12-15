@@ -50,7 +50,8 @@ typedef void (^DribbbleCollectionCompletionBlock)(Dribbble * dribbble, DribbbleR
 - (void) listShotsOfUser:(NSString *) user parameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;
 - (void) followUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion;
 - (void) unfollowUser:(NSString *) user withCompletion:(DribbbleCompletionBlock) completion;
-- (void) getUsersFollowingWithCompletion:(DribbbleCompletionBlock) completion;
+- (void) getFollowedUsersWithParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;
+- (void) getFollowersForAuthedUserWithParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion;
 
 @end
 
@@ -65,12 +66,12 @@ typedef void (^DribbbleCollectionCompletionBlock)(Dribbble * dribbble, DribbbleR
 //for the overall collection of shots.
 @interface DribbbleShotsCollection : NSObject
 @property Dribbble * dribbble;
-@property NSMutableArray * shots;
+@property NSMutableArray * content;
 @property NSDictionary * parameters;
 @property NSUInteger page;
 - (id) initWithDribbble:(Dribbble *) dribbble parameters:(NSDictionary *) parameters;
-- (void) loadShotsWithCompletion:(DribbbleCollectionCompletionBlock) completion;
-- (void) addShots:(NSArray *) shots;
+- (void) loadContentWithCompletion:(DribbbleCollectionCompletionBlock) completion;
+- (void) addContent:(NSArray *) content;
 - (void) incrementPage;
 - (void) reset;
 - (NSDictionary *) APICallParameters;

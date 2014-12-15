@@ -258,9 +258,19 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	[task resume];
 }
 
-- (void) getUsersFollowingWithCompletion:(DribbbleCompletionBlock) completion; {
+- (void) getFollowedUsersWithParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user/following"];
-	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"GET" params:nil];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"GET" params:params];
+	__weak Dribbble * weakSelf = self;
+	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
+	}];
+	[task resume];
+}
+
+- (void) getFollowersForAuthedUserWithParameters:(NSDictionary *) params withCompletion:(DribbbleCompletionBlock) completion; {
+	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/user/followers"];
+	NSMutableURLRequest * request = [self __requestWithAPIEndpoint:u method:@"GET" params:params];
 	__weak Dribbble * weakSelf = self;
 	NSURLSessionDataTask * task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 		[weakSelf __handleExpectingJSONResponse:response data:data error:error completion:completion];
@@ -310,7 +320,7 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 - (id) init {
 	self = [super init];
 	self.page = 1;
-	self.shots = [NSMutableArray array];
+	self.content = [NSMutableArray array];
 	self.parameters = [NSDictionary dictionary];
 	return self;
 }
@@ -324,8 +334,8 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	return self;
 }
 
-- (void) loadShotsWithCompletion:(DribbbleCollectionCompletionBlock) completion; {
-	NSLog(@"DribbbleShotsCollection: Implement loadShotsWithCompletion in a custom subclass.");
+- (void) loadContentWithCompletion:(DribbbleCollectionCompletionBlock) completion; {
+	NSLog(@"DribbbleShotsCollection: Implement loadContentWithCompletion in a custom subclass.");
 }
 
 - (NSDictionary *) APICallParameters; {
@@ -337,8 +347,8 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	return pams;
 }
 
-- (void) addShots:(NSArray *) shots {
-	[self.shots addObjectsFromArray:shots];
+- (void) addContent:(NSArray *) content {
+	[self.content addObjectsFromArray:content];
 }
 
 - (void) incrementPage; {
@@ -347,7 +357,7 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 
 - (void) reset; {
 	self.page = 1;
-	self.shots = [NSMutableArray array];
+	self.content = [NSMutableArray array];
 }
 
 - (void) dealloc {
