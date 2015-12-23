@@ -10,14 +10,14 @@
 	<string>dribbble-api-modern-objc</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>23F7DCC083C81EFCF2112680A51FDC413FC613D4</key>
+		<key>048BDABE3AE79FA3EE55C616D3C9FA56FDEE4397</key>
 		<string>github.com-gngrwzrd:gngrwzrd/dribbble-api-modern-objc.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>dribbble-api-modern-objc.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>23F7DCC083C81EFCF2112680A51FDC413FC613D4</key>
+		<key>048BDABE3AE79FA3EE55C616D3C9FA56FDEE4397</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>23F7DCC083C81EFCF2112680A51FDC413FC613D4</string>
+	<string>048BDABE3AE79FA3EE55C616D3C9FA56FDEE4397</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>23F7DCC083C81EFCF2112680A51FDC413FC613D4</string>
+			<string>048BDABE3AE79FA3EE55C616D3C9FA56FDEE4397</string>
 			<key>IDESourceControlWCCName</key>
 			<string>dribbble-api-modern-objc</string>
 		</dict>
