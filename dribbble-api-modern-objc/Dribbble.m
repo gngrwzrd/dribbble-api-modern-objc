@@ -115,7 +115,12 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 		}
 	}
 	NSURL * url = [NSURL URLWithString:ms];
+#if TARGET_OS_IPHONE
+	
+#elif TARGET_OS_MAC
 	[[NSWorkspace sharedWorkspace] openURL:url];
+#endif
+	
 }
 
 - (void) handleCustomSchemeCallback:(NSString *) url; {
