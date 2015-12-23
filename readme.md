@@ -8,7 +8,7 @@ It supports only a subset of the dribble API, but it'd be very straight-forward 
 
 Some features:
 
-* Authentcation with OAuth
+* Authentication with OAuth
 * Listing Shots with API Parameters
 * Like Shot / Unlike Shot
 * Follow User / Unfollow User
