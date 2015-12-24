@@ -1,5 +1,12 @@
 
+#import <TargetConditionals.h>
 #import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
+
 
 //forwards
 @class Dribbble;

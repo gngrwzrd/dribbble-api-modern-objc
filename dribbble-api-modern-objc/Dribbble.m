@@ -47,13 +47,16 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 }
 
 - (void) __handleExpectingJSONResponse:(NSURLResponse *) response data:(NSData *) data error:(NSError *) error completion:(DribbbleCompletionBlock) completion {
-	NSObject * json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+	NSObject * json = nil;
+	if(data) {
+		json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+	}
 	DribbbleResponse * dresponse = [[DribbbleResponse alloc] init];
 	if(error) {
 		dresponse.error = error;
-	} else if([json isKindOfClass:[NSArray class]]) {
+	} else if(json && [json isKindOfClass:[NSArray class]]) {
 		dresponse.data = json;
-	} else if([json isKindOfClass:[NSDictionary class]]) {
+	} else if(json && [json isKindOfClass:[NSDictionary class]]) {
 		__weak NSDictionary * jsondict = (NSDictionary *)json;
 		NSString * message = [jsondict objectForKey:@"message"];
 		if(message) {
