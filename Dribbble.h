@@ -3,10 +3,10 @@
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <Cocoa/Cocoa.h>
 #endif
-
 
 //forwards
 @class Dribbble;
@@ -16,7 +16,7 @@
 //error domain
 extern NSString * const DribbbleErrorDomain;
 
-//error coes
+//error codes
 extern NSInteger const DribbbleErrorCodeBadCredentials;
 
 //scopes
@@ -32,13 +32,16 @@ typedef void (^DribbbleCollectionCompletionBlock)(Dribbble * dribbble, DribbbleR
 //main Dribbble class
 @interface Dribbble : NSObject <NSURLSessionDelegate>
 
-//default configured session.
+//default configured session
 @property NSURLSession * defaultSession;
 
 //auth properties
 @property NSString * clientId;
 @property NSString * clientSecret;
 @property NSString * accessToken;
+
+//wehether to trust any ssl certificate
+@property BOOL trustAnySSLCertificate;
 
 //authorize
 - (void) authorizeWithScopes:(NSArray *) scopes completion:(DribbbleCompletionBlock) completion;

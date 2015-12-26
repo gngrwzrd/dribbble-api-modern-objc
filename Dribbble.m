@@ -1,6 +1,11 @@
 
 #import "Dribbble.h"
-#import "URLParser.h"
+
+@interface DribbleURLParser : NSObject
+@property NSArray * variables;
+- (id) initWithURLString:(NSString *) url;
+- (NSString *) valueForVariable:(NSString *) varName;
+@end
 
 NSString * const DribbbleErrorDomain = @"DribbbleErrorDomain";
 NSString * const DribbbleScopePublic = @"public";
@@ -13,10 +18,7 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 @property (copy) DribbbleCompletionBlock authorizeCompletion;
 @end
 
-#pragma mark Dribbble
 @implementation Dribbble
-
-#pragma mark utilities
 
 - (id) init {
 	self = [super init];
@@ -105,8 +107,6 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	return request;
 }
 
-#pragma mark auth
-
 - (void) authorizeWithScopes:(NSArray *) scopes completion:(DribbbleCompletionBlock) completion; {
 	self.authorizeCompletion = completion;
 	NSString * u = [NSString stringWithFormat:@"https://dribbble.com/oauth/authorize?client_id=%@",self.clientId];
@@ -117,9 +117,10 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 			[ms appendFormat:@"%@+",scope];
 		}
 	}
+	
 	NSURL * url = [NSURL URLWithString:ms];
 #if TARGET_OS_IPHONE
-	
+	[[UIApplication sharedApplication] openURL:url];
 #elif TARGET_OS_MAC
 	[[NSWorkspace sharedWorkspace] openURL:url];
 #endif
@@ -127,7 +128,7 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 }
 
 - (void) handleCustomSchemeCallback:(NSString *) url; {
-	URLParser * parser = [[URLParser alloc] initWithURLString:url];
+	DribbleURLParser * parser = [[DribbleURLParser alloc] initWithURLString:url];
 	NSString * code = [parser valueForVariable:@"code"];
 	
 	NSURL * token = [NSURL URLWithString:@"https://dribbble.com/oauth/token"];
@@ -193,8 +194,6 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	}];
 	[task resume];
 }
-
-#pragma mark users
 
 - (void) getUser:(NSString *) user completion:(DribbbleCompletionBlock) completion; {
 	NSMutableString * u = [NSMutableString stringWithFormat:@"https://api.dribbble.com/v1/users/%@",user];
@@ -287,17 +286,16 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 }
 
 - (void) dealloc {
-	NSLog(@"DEALLOC: Dribbble");
 	[self.defaultSession finishTasksAndInvalidate];
 }
 
-#if DEBUG
-
 - (void) URLSession:(NSURLSession *) session task:(NSURLSessionTask *) task didReceiveChallenge:(NSURLAuthenticationChallenge *) challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
-	completionHandler(NSURLSessionAuthChallengeUseCredential,[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+	if(self.trustAnySSLCertificate) {
+		completionHandler(NSURLSessionAuthChallengeUseCredential,[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+	} else {
+		completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,nil);
+	}
 }
-
-#endif
 
 @end
 
@@ -313,10 +311,6 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 		return [self.error description];
 	}
 	return [super description];
-}
-
-- (void) dealloc {
-	//NSLog(@"DEALLOC: DribbbleResponse");
 }
 
 @end
@@ -375,4 +369,33 @@ NSInteger const DribbbleErrorCodeBadCredentials = 10;
 	}
 }
 
+@end
+
+@implementation DribbleURLParser
+- (id) initWithURLString:(NSString *) url{
+	self = [super init];
+	if(self != nil) {
+		NSString * string = url;
+		NSScanner * scanner = [NSScanner scannerWithString:string];
+		[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@"&?"]];
+		NSString * tempString = nil;
+		NSMutableArray * vars = [NSMutableArray new];
+		[scanner scanUpToString:@"?" intoString:nil];
+		while([scanner scanUpToString:@"&" intoString:&tempString]) {
+			[vars addObject:[tempString copy]];
+		}
+		self.variables = vars;
+	}
+	return self;
+}
+
+- (NSString *) valueForVariable:(NSString *) varName {
+	for (NSString * var in self.variables) {
+		if ([var length] > [varName length]+1 && [[var substringWithRange:NSMakeRange(0, [varName length]+1)] isEqualToString:[varName stringByAppendingString:@"="]]) {
+			NSString * varValue = [var substringFromIndex:[varName length]+1];
+			return varValue;
+		}
+	}
+	return nil;
+}
 @end

@@ -28,8 +28,8 @@
 
 - (IBAction) testAuth:(id)sender {
 	self.d = [[Dribbble alloc] init];
-	self.d.clientId = @"1bcc9d4412783d9ed17457ea7bfe293392c523de74f5e4e8cf798f45eca3e559";
-	self.d.clientSecret = @"5d20fe22fdba1dfb957d8187230394b7b732db2c9e9cae9da31e5ed0a5233933";
+	self.d.clientId = @"2447cd8109407ee2e4f504f2ec303156611c212fb1d09067d5f56ef952dbb25e";
+	self.d.clientSecret = @"fcaeecb6ed606c797b3a6890653593eaf04bb42644360e376355d8e0056bcf83";
 	[self.d authorizeWithScopes:@[DribbbleScopePublic,DribbbleScopeWrite,DribbbleScopeUpload] completion:^(DribbbleResponse *response) {
 		if(!response.error) {
 			NSLog(@"%@",self.d.accessToken);

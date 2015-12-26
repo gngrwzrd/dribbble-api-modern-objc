@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		076A74E51C2F149B000F36C8 /* Dribbble.m in Sources */ = {isa = PBXBuildFile; fileRef = 076A74E41C2F149B000F36C8 /* Dribbble.m */; };
 		079E5CD319FD8509006D10DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 079E5CD219FD8509006D10DE /* AppDelegate.m */; };
 		079E5CD519FD8509006D10DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 079E5CD419FD8509006D10DE /* main.m */; };
 		079E5CD719FD8509006D10DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 079E5CD619FD8509006D10DE /* Images.xcassets */; };
 		079E5CDA19FD8509006D10DE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 079E5CD819FD8509006D10DE /* MainMenu.xib */; };
-		079E5CF519FD8530006D10DE /* Dribbble.m in Sources */ = {isa = PBXBuildFile; fileRef = 079E5CF219FD8530006D10DE /* Dribbble.m */; };
-		079E5CF619FD8530006D10DE /* URLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 079E5CF419FD8530006D10DE /* URLParser.m */; };
 		079E5CF819FDBD81006D10DE /* comp.gif in Resources */ = {isa = PBXBuildFile; fileRef = 079E5CF719FDBD81006D10DE /* comp.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		076A74E31C2F149B000F36C8 /* Dribbble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dribbble.h; path = ../../Dribbble.h; sourceTree = "<group>"; };
+		076A74E41C2F149B000F36C8 /* Dribbble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Dribbble.m; path = ../../Dribbble.m; sourceTree = "<group>"; };
 		079E5CCC19FD8509006D10DE /* dribbble-api-modern-objc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dribbble-api-modern-objc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		079E5CD019FD8509006D10DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		079E5CD119FD8509006D10DE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -24,10 +25,6 @@
 		079E5CD419FD8509006D10DE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		079E5CD619FD8509006D10DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		079E5CD919FD8509006D10DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		079E5CF119FD8530006D10DE /* Dribbble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dribbble.h; sourceTree = "<group>"; };
-		079E5CF219FD8530006D10DE /* Dribbble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dribbble.m; sourceTree = "<group>"; };
-		079E5CF319FD8530006D10DE /* URLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLParser.h; sourceTree = "<group>"; };
-		079E5CF419FD8530006D10DE /* URLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLParser.m; sourceTree = "<group>"; };
 		079E5CF719FDBD81006D10DE /* comp.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = comp.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,6 +43,8 @@
 			isa = PBXGroup;
 			children = (
 				079E5CCE19FD8509006D10DE /* dribbble-api-modern-objc */,
+				079E5CCF19FD8509006D10DE /* Supporting Files */,
+				079E5CEF19FD8522006D10DE /* Frameworks */,
 				079E5CCD19FD8509006D10DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,12 +60,9 @@
 		079E5CCE19FD8509006D10DE /* dribbble-api-modern-objc */ = {
 			isa = PBXGroup;
 			children = (
-				079E5CEF19FD8522006D10DE /* Frameworks */,
 				079E5CD119FD8509006D10DE /* AppDelegate.h */,
 				079E5CD219FD8509006D10DE /* AppDelegate.m */,
-				079E5CD619FD8509006D10DE /* Images.xcassets */,
 				079E5CD819FD8509006D10DE /* MainMenu.xib */,
-				079E5CCF19FD8509006D10DE /* Supporting Files */,
 			);
 			path = "dribbble-api-modern-objc";
 			sourceTree = "<group>";
@@ -74,11 +70,13 @@
 		079E5CCF19FD8509006D10DE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				079E5CD619FD8509006D10DE /* Images.xcassets */,
 				079E5CF719FDBD81006D10DE /* comp.gif */,
 				079E5CD019FD8509006D10DE /* Info.plist */,
 				079E5CD419FD8509006D10DE /* main.m */,
 			);
 			name = "Supporting Files";
+			path = "dribbble-api-modern-objc";
 			sourceTree = "<group>";
 		};
 		079E5CEF19FD8522006D10DE /* Frameworks */ = {
@@ -87,15 +85,14 @@
 				079E5CF019FD8528006D10DE /* Dribbble */,
 			);
 			name = Frameworks;
+			path = "dribbble-api-modern-objc";
 			sourceTree = "<group>";
 		};
 		079E5CF019FD8528006D10DE /* Dribbble */ = {
 			isa = PBXGroup;
 			children = (
-				079E5CF119FD8530006D10DE /* Dribbble.h */,
-				079E5CF219FD8530006D10DE /* Dribbble.m */,
-				079E5CF319FD8530006D10DE /* URLParser.h */,
-				079E5CF419FD8530006D10DE /* URLParser.m */,
+				076A74E31C2F149B000F36C8 /* Dribbble.h */,
+				076A74E41C2F149B000F36C8 /* Dribbble.m */,
 			);
 			name = Dribbble;
 			sourceTree = "<group>";
@@ -171,8 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				079E5CD519FD8509006D10DE /* main.m in Sources */,
-				079E5CF519FD8530006D10DE /* Dribbble.m in Sources */,
-				079E5CF619FD8530006D10DE /* URLParser.m in Sources */,
+				076A74E51C2F149B000F36C8 /* Dribbble.m in Sources */,
 				079E5CD319FD8509006D10DE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +304,7 @@
 				079E5CEB19FD8509006D10DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
