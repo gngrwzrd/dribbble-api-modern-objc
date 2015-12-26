@@ -1,6 +1,6 @@
 # Dribbble API Objective-C
 
-A simple API class for Dribbble API.
+A simple API class for the latest Dribbble API.
 
 You should probably be somewhat familiar with the [dribbble api here](http://developer.dribbble.com/v1/).
 
@@ -15,7 +15,7 @@ Some features:
 
 See Dribbble.h for other methods available.
 
-See the sample apps in the repo for demos.
+**See the sample apps in the repo for demos.**
 
 # License
 
